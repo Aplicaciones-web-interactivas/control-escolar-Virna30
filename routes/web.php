@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\adminController;
+use App\Http\Controllers\HorarioController;
+use App\Http\Controllers\GrupoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -30,4 +32,7 @@ Route::post('/materia',[adminController::class,'saveMateria'])->name('save.mater
 
 Route::delete('/eliminarmateria/{id}',[adminController::class,'deleteMateria'])->name('delete.materia');
 Route::post('/modificarmateria/{id}',[adminController::class,'updateMateria'])->name('update.materia');
+
+Route::resource('horarios', HorarioController::class);
+Route::resource('grupos', GrupoController::class);
 

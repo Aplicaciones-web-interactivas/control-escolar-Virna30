@@ -10,6 +10,8 @@
     <nav>
         <ul>
             <li><a href="{{ route('index.materias') }}">Materias</a></li>
+            <li><a href="{{ route('horarios.index') }}">Horarios</a></li>
+            <li><a href="{{ route('grupos.index') }}">Grupos</a></li>
         </ul>
     </nav>
     <div class="container mx-auto py-12">
