@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('materia_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->string('dia');
+            $table->string('dias');
             $table->string('hora_inicio');
             $table->string('hora_fin');
             $table->timestamps();

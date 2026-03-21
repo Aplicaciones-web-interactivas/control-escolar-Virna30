@@ -8,10 +8,20 @@ class grupo extends Model
 {
     protected $table = 'grupos';
 
-    protected $fillable = ['nombre'];
+    protected $fillable = ['nombre', 'horario_id'];
 
-    public function horarios()
+    public function horario()
     {
-        return $this->hasMany(horario::class);
+        return $this->belongsTo(horario::class);
+    }
+
+    public function inscripcions()
+    {
+        return $this->hasMany(inscripcion::class);
+    }
+
+    public function calificacions()
+    {
+        return $this->hasMany(calificacion::class);
     }
 }

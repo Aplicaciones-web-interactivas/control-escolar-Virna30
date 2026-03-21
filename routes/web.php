@@ -4,6 +4,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\GrupoController;
+use App\Http\Controllers\CalificacionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,4 +36,10 @@ Route::post('/modificarmateria/{id}',[adminController::class,'updateMateria'])->
 
 Route::resource('horarios', HorarioController::class);
 Route::resource('grupos', GrupoController::class);
+
+Route::middleware('auth')->group(function () {
+    Route::get('/calificaciones', [CalificacionController::class, 'index'])->name('calificaciones.index');
+    Route::get('/calificaciones/grupo/{grupo_id}', [CalificacionController::class, 'showGrupo'])->name('calificaciones.grupo');
+    Route::post('/calificaciones', [CalificacionController::class, 'store'])->name('calificaciones.store');
+});
 

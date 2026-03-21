@@ -9,17 +9,16 @@ class horario extends Model
     protected $table = 'horarios';
 
     protected $fillable = [
-        'grupo_id',
         'materia_id',
         'user_id',
-        'dia',
+        'dias',
         'hora_inicio',
         'hora_fin',
     ];
 
-    public function grupo()
+    public function grupos()
     {
-        return $this->belongsTo(grupo::class);
+        return $this->hasMany(grupo::class);
     }
 
     public function materia()

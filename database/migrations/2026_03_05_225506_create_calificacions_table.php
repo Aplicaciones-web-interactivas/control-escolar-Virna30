@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('grupo_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->float('calificacion');
+            $table->decimal('calificacion', 8, 2);
             $table->timestamps();
         });
     }
