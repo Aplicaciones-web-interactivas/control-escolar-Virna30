@@ -44,7 +44,24 @@ class SubmissionController extends Controller
             ->first();
 
         if ($existingSubmission) {
-            return back()->with('error', 'Ya has entregado esta tarea');
+            // Si existe entrega y la fecha no ha vencido, permitir edición
+            if ($assignment->due_date >= now()) {
+                // Borrar archivo antiguo físicamente
+                Storage::disk('public')->delete($existingSubmission->file_path);
+                
+                // Subir nuevo archivo
+                $fileName = 'assignment_' . $assignment->id . '_user_' . auth()->id() . '_' . time() . '.pdf';
+                $filePath = $request->file('file')->storeAs('submissions', $fileName, 'public');
+                
+                // Actualizar registro existente (no crear nuevo)
+                $existingSubmission->update([
+                    'file_path' => $filePath
+                ]);
+                
+                return back()->with('success', 'Entrega actualizada correctamente');
+            } else {
+                return back()->with('error', 'La fecha de entrega ha vencido');
+            }
         }
 
         if ($assignment->due_date < now()) {

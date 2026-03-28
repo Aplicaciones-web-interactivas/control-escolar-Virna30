@@ -6,9 +6,7 @@ use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\CalificacionController;
 use App\Http\Controllers\AssignmentController;
-use App\Http\Controllers\GroupController;
 use App\Http\Controllers\SubmissionController;
-use App\Http\Controllers\GradeController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
@@ -61,9 +59,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/assignments/{assignment}', [AssignmentController::class, 'show'])->name('assignments.show');
         
         // Rutas de gestión de grupos
-        Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
-        Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.create');
-        Route::post('/groups', [GroupController::class, 'store'])->name('groups.store');
+        Route::get('/groups', [GrupoController::class, 'index'])->name('groups.index');
+        Route::get('/groups/create', [GrupoController::class, 'create'])->name('groups.create');
+        Route::post('/groups', [GrupoController::class, 'store'])->name('groups.store');
     });
     
     // Rutas de Entregas para Alumnos
@@ -74,8 +72,5 @@ Route::middleware('auth')->group(function () {
     
     // Rutas de Descarga (ambos roles)
     Route::get('/submissions/{submission}/download', [SubmissionController::class, 'download'])->name('submissions.download');
-    
-    // Rutas de Calificación (solo maestros)
-    Route::post('/grades/{submission}', [GradeController::class, 'store'])->name('grades.store')->middleware('role:teacher');
 });
 

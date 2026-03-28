@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\grupo;
-use App\Models\horario;
+use App\Models\Grupo;
+use App\Models\Horario;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
@@ -14,11 +14,13 @@ class TeacherController extends Controller
             abort(403);
         }
 
-        // Obtener grupos donde el maestro tiene horarios
-        $grupos = grupo::whereHas('horario', function($query) {
-            $query->where('user_id', auth()->id());
-        })->with(['inscripcions.user', 'horario'])->get();
+        $horarios = Horario::where('user_id', auth()->id())
+            ->with('grupo')
+            ->get();
 
-        return view('dashboard.teacher', compact('grupos'));
+        // Extraemos los grupos únicos de esos horarios para las tarjetas
+        $grupos = $horarios->pluck('grupo')->unique('id')->filter();
+
+        return view('dashboard.teacher', compact('grupos', 'horarios'));
     }
 }

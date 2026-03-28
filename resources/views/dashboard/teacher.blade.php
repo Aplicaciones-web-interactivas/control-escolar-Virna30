@@ -10,7 +10,7 @@
         <p class="text-gray-600 mt-1">Gestiona tus grupos y horarios</p>
     </div>
 
-    <!-- Mis Grupos Section -->
+    <!-- Mis Grupos -->
     <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6">
         <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
             <svg class="w-5 h-5 mr-2 text-neon-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -36,6 +36,13 @@
                                 <span class="text-gray-500">Alumnos inscritos:</span>
                                 <span class="font-medium text-neon-pink">{{ $grupo->inscripcions->count() }}</span>
                             </div>
+                            <div class="flex items-center justify-between mt-2">
+                                <span class="text-gray-500">Ver calificaciones:</span>
+                                <a href="{{ route('calificaciones.grupo', $grupo->id) }}" 
+                                   class="text-xs px-2 py-1 rounded-full border border-neon-pink text-neon-pink hover:bg-neon-pink hover:text-white transition-all duration-300 font-medium">
+                                    Calificaciones
+                                </a>
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -52,7 +59,7 @@
 
     <!-- Quick Actions -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <a href="{{ route('groups.create') }}" 
+        <a href="{{ route('grupos.create') }}" 
            class="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-all duration-300 group">
             <div class="flex items-center">
                 <div class="flex-shrink-0 bg-neon-pink rounded-lg p-3 group-hover:bg-pink-600 transition-colors duration-300">

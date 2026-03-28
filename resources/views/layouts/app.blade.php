@@ -46,7 +46,11 @@
                                class="text-sm px-3 py-2 rounded-lg text-neon-pink hover:bg-pink-50 transition-all duration-300 font-medium">
                                 Panel
                             </a>
-                            <a href="{{ route('groups.index') }}" 
+                            <a href="{{ route('calificaciones.index') }}" 
+                               class="text-sm px-3 py-2 rounded-lg text-neon-pink hover:bg-pink-50 transition-all duration-300 font-medium">
+                                Calificaciones
+                            </a>
+                            <a href="{{ route('grupos.index') }}" 
                                class="text-sm px-3 py-2 rounded-lg text-neon-pink hover:bg-pink-50 transition-all duration-300 font-medium">
                                 Mis Grupos
                             </a>

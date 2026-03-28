@@ -29,52 +29,35 @@
             <table class="min-w-full divide-y divide-gray-300">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-l-4 border-neon-pink">
+                        <th class="px-4 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider border-l-4 border-neon-pink">
                             Alumno
                         </th>
-                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Calificación
-                        </th>
-                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Acción
-                        </th>
+                        @foreach($alumnosConCalificaciones[0]['assignments'] as $assignment)
+                            <th class="px-4 py-2 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                {{ $assignment->title }}
+                            </th>
+                        @endforeach
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach($alumnos as $alumno)
-                        <tr class="hover:bg-gray-50 transition-colors duration-150">
-                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
-                                {{ $alumno['nombre'] }}
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                                @if($alumno['calificacion'])
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-neon-pink text-white">
-                                        {{ number_format($alumno['calificacion'], 1) }}
+                    @foreach($alumnosConCalificaciones as $alumno)
+                    <tr>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
+                            {{ $alumno['nombre'] }}
+                        </td>
+                        @foreach($alumno['assignments'] as $assignment)
+                            <td class="px-4 py-3 whitespace-nowrap text-center text-sm">
+                                @php $nota = $alumno['calificaciones'][$assignment->id] ?? null; @endphp
+                                @if($nota !== null)
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-neon-pink text-white shadow-sm">
+                                        {{ number_format($nota, 1) }}
                                     </span>
                                 @else
-                                    <span class="text-gray-400 italic">Pendiente</span>
+                                    <span class="text-gray-400 italic text-xs">-</span>
                                 @endif
                             </td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm">
-                                <form action="{{ route('calificaciones.store') }}" method="POST" class="flex items-center space-x-2">
-                                    @csrf
-                                    <input type="hidden" name="grupo_id" value="{{ $grupo->id }}">
-                                    <input type="hidden" name="user_id" value="{{ $alumno['id'] }}">
-                                    <input type="number" 
-                                           name="calificacion" 
-                                           value="{{ $alumno['calificacion'] ?? '' }}" 
-                                           min="0" 
-                                           max="100" 
-                                           step="0.01" 
-                                           required
-                                           class="w-20 px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-neon-pink focus:border-neon-pink">
-                                    <button type="submit" 
-                                            class="px-3 py-1 text-xs font-medium text-white bg-neon-pink hover:bg-pink-600 rounded transition-colors duration-300">
-                                        Guardar
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+                        @endforeach
+                    </tr>
                     @endforeach
                 </tbody>
             </table>

@@ -86,21 +86,74 @@
                                 </div>
                             </form>
                         @elseif($assignment->submissions->isNotEmpty())
-                            <!-- Download Link -->
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm text-green-600 font-medium">
-                                    <svg class="w-4 h-4 mr-1 inline" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                    </svg>
-                                    Entregado el {{ $assignment->submissions->first()->created_at->format('d/m/Y H:i') }}
-                                </span>
-                                <a href="{{ route('submissions.download', $assignment->submissions->first()) }}" 
-                                   class="inline-flex items-center px-3 py-1.5 border border-transparent rounded-lg text-xs font-medium text-white bg-neon-pink hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neon-pink transition-all duration-300 transform hover:scale-105">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                    </svg>
-                                    Descargar PDF
-                                </a>
+                            <!-- Download and Edit Section -->
+                            <div class="space-y-3">
+                                <!-- Status Display -->
+                                <div class="space-y-2">
+                                    @if($assignment->submissions->first()->calificacion)
+                                        <span class="text-sm text-blue-600 font-medium">
+                                            <svg class="w-4 h-4 mr-1 inline" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                            </svg>
+                                            Calificado el {{ $assignment->submissions->first()->created_at->format('d/m/Y H:i') }}
+                                        </span>
+                                        <span class="text-xs text-gray-500">
+                                            <svg class="w-3 h-3 mr-1 inline" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                                                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V3a2 2 0 012-2zm0 2a1 1 0 000 2h8a1 1 0 100-2H4z"/>
+                                            </svg>
+                                            Nota: {{ $assignment->submissions->first()->calificacion }}
+                                        </span>
+                                    @else
+                                        <span class="text-sm text-green-600 font-medium">
+                                            <svg class="w-4 h-4 mr-1 inline" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                            </svg>
+                                            Entregado el {{ $assignment->submissions->first()->created_at->format('d/m/Y H:i') }}
+                                        </span>
+                                        <span class="text-xs text-gray-500">
+                                            <svg class="w-3 h-3 mr-1 inline" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                                                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V3a2 2 0 012-2zm0 2a1 1 0 000 2h8a1 1 0 100-2H4z"/>
+                                            </svg>
+                                            Archivo: {{ basename($assignment->submissions->first()->file_path) }}
+                                        </span>
+                                    @endif
+                                </div>
+                                
+                                <!-- Action Buttons -->
+                                <div class="flex items-center space-x-2">
+                                    <!-- Download Button (Always visible) -->
+                                    <a href="{{ route('submissions.download', $assignment->submissions->first()) }}" 
+                                       class="inline-flex items-center px-3 py-1.5 border border-transparent rounded-lg text-xs font-medium text-white bg-neon-pink hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neon-pink transition-all duration-300 transform hover:scale-105">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                        </svg>
+                                        Descargar PDF
+                                    </a>
+                                    
+                                    <!-- Edit Button (Only if still on time AND not graded) -->
+                                    @if($assignment->due_date > now() && !$assignment->submissions->first()->calificacion)
+                                        <form action="{{ route('submissions.store', $assignment) }}" method="POST" enctype="multipart/form-data" class="inline">
+                                            @csrf
+                                            <input type="file" 
+                                                   name="file" 
+                                                   accept=".pdf" 
+                                                   required
+                                                   class="hidden"
+                                                   id="file-upload-{{ $assignment->id }}"
+                                                   onchange="this.form.submit()">
+                                            <button type="button" 
+                                                    onclick="document.getElementById('file-upload-{{ $assignment->id }}').click()"
+                                                    class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-lg text-xs font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-300">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828L8.586-8.586z"/>
+                                                </svg>
+                                                Editar Entrega
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
                             </div>
                         @else
                             <!-- Expired -->
