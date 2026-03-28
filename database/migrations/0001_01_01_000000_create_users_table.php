@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('clave_institucional')->unique();
-            $table->string('password');
-            $table->string('role')->default('user');
+            $table->string('password')->nullable();
+            $table->string('rol')->default('user');
             $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->timestamps();

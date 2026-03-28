@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Assignment;
+use App\Models\Submission;
 
 class User extends Authenticatable
 {
@@ -19,7 +21,9 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
+        'clave_institucional',
+        'rol',
+        'is_active',
         'password',
     ];
 
@@ -41,8 +45,33 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
+            'is_active' => 'boolean',
             'password' => 'hashed',
         ];
+    }
+    
+    public function horarios()
+    {
+        return $this->hasMany(Horario::class);
+    }
+    
+    public function inscripcions()
+    {
+        return $this->hasMany(Inscripcion::class);
+    }
+    
+    public function calificacions()
+    {
+        return $this->hasMany(Calificacion::class);
+    }
+    
+    public function assignments()
+    {
+        return $this->hasMany(Assignment::class);
+    }
+    
+    public function submissions()
+    {
+        return $this->hasMany(Submission::class);
     }
 }
